@@ -1,9 +1,9 @@
-﻿using NicestLabel.LabelComponents;
+﻿using Ninjasoft.ReportCreator.LabelComponents;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Runtime.Versioning;
 
-namespace NicestLabel
+namespace Ninjasoft.ReportCreator
 {
     public class LabelBuilder
     {
@@ -30,10 +30,23 @@ namespace NicestLabel
             return this;
         }
 
+        /// <summary>
+        /// only use this for 128C barcodes
+        /// </summary>
+        /// <param name="barcode"></param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <returns></returns>
+        public LabelBuilder AddBarcode(int barcode, float x, float y)
+        {
+            _components.Add(new BarcodeComponent(barcode.ToString(), x, y, Symbology.Code128C));
+            return this;
+        }
+
         [SupportedOSPlatform("windows")]
         public void Build(string filePath)
         {
-            Font f = new Font(FontFamily.GenericMonospace, 10);
+            Font f = new (FontFamily.GenericMonospace, 10);
             Brush b = new SolidBrush(Color.Black);
 
             using (var bitmap = new Bitmap(Width, Height))

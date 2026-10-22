@@ -1,7 +1,7 @@
 ﻿using System.Drawing;
 using System.Runtime.Versioning;
 
-namespace NicestLabel.LabelComponents
+namespace Ninjasoft.ReportCreator.LabelComponents
 {
     internal class BarcodeComponent : ILabelComponent
     {
@@ -24,7 +24,7 @@ namespace NicestLabel.LabelComponents
         [SupportedOSPlatform("windows")]
         public void Draw(Graphics graphics, Font f, Brush b)
         {
-            Pen p = new Pen(b);
+            Pen p = new(b);
             float x = X;
             float y = Y;
 

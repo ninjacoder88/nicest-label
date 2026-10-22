@@ -19,6 +19,11 @@ namespace NicestLabel.IntegrationTests
                 .AddText("hello", 10, 10)
                 .AddBarcode("ABC", 10, 50, Symbology.Code128B)
                 .Build(@"d:\temp\label-ABC-B.png");
+
+            new LabelBuilder(100, 250)
+                .AddText("hello", 10, 10)
+                .AddBarcode(123, 10, 50)
+                .Build(@"d:\temp\label-ABC-B.png");
         }
     }
 }

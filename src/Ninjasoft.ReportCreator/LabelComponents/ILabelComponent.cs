@@ -1,7 +1,7 @@
 ﻿using System.Drawing;
 using System.Runtime.Versioning;
 
-namespace NicestLabel.LabelComponents
+namespace Ninjasoft.ReportCreator.LabelComponents
 {
     internal interface ILabelComponent
     {
