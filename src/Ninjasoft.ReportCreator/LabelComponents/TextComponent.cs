@@ -3,25 +3,14 @@ using System.Runtime.Versioning;
 
 namespace Ninjasoft.ReportCreator.LabelComponents
 {
-    internal class TextComponent : ILabelComponent
+    internal sealed class TextComponent : LabelComponent
     {
-        public TextComponent(string text, float x, float y)
+        public TextComponent(string text, float x, float y, Font font, Brush brush)
+            : base(text, x, y, font, brush)
         {
-            Text = text;
-            X = x;
-            Y = y;
         }
-
-        public string Text { get; }
-
-        public float X { get; }
-
-        public float Y { get; }
 
         [SupportedOSPlatform("windows")]
-        public void Draw(Graphics graphics, Font f, Brush b)
-        {
-            graphics.DrawString(Text, f, b, X, Y);
-        }
+        public override void Draw(Graphics graphics) => graphics.DrawString(Text, Font, Brush, X, Y);
     }
 }

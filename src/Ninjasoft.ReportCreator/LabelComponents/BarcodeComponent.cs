@@ -3,40 +3,30 @@ using System.Runtime.Versioning;
 
 namespace Ninjasoft.ReportCreator.LabelComponents
 {
-    internal class BarcodeComponent : ILabelComponent
+    internal sealed class BarcodeComponent : LabelComponent
     {
-        public BarcodeComponent(string text, float x, float y, Symbology symbology)
+        public BarcodeComponent(string text, float x, float y, Font font, Brush brush, Symbology symbology)
+         : base(text, x, y, font, brush)
         {
-            X = x;
-            Y = y;
-            Text = text;
             _symbology = symbology;
         }
 
-        public string Text { get; }
-
-        public float X { get; }
-
-        public float Y { get; }
-
-        private readonly Symbology _symbology;
-
         [SupportedOSPlatform("windows")]
-        public void Draw(Graphics graphics, Font f, Brush b)
+        public override void Draw(Graphics graphics)
         {
-            Pen p = new(b);
+            Pen p = new(Brush);
             float x = X;
             float y = Y;
 
-            string barcodePattern = new BarcodeCreator(_symbology).Create(Text);
+            string barcodePattern = BarcodeCreator.Create(Text, _symbology);
 
             DrawPattern(graphics, p, barcodePattern, x, y);
         }
 
         [SupportedOSPlatform("windows")]
-        private float DrawPattern(Graphics graphics, Pen p, string pattern, float x, float y)
+        private static float DrawPattern(Graphics graphics, Pen p, string pattern, float x, float y)
         {
-            foreach (var bit in pattern.ToCharArray())
+            foreach (char bit in pattern.ToCharArray())
             {
                 switch (bit)
                 {
@@ -51,5 +41,7 @@ namespace Ninjasoft.ReportCreator.LabelComponents
 
             return x;
         }
+
+        private readonly Symbology _symbology;
     }
 }

@@ -1,8 +1,8 @@
 ﻿namespace Ninjasoft.ReportCreator
 {
-    internal sealed class BarcodeCreator(Symbology symbology)
+    internal static class BarcodeCreator
     {
-        public string Create(string text)
+        public static string Create(string text, Symbology symbology)
         {
             if(symbology == Symbology.Code128A || symbology == Symbology.Code128B)
             {
@@ -27,8 +27,14 @@
 
                 return barcodePattern;
             }
+
             if(symbology == Symbology.Code128C)
             {
+                if(!int.TryParse(text, out int number))
+                    throw new Exception("Invalid input for Code 128C. Must be a number");
+                if(number < 0)
+                    throw new Exception("Invalid input for Code 128C. Must be a positive number");
+
                 if(text.Length % 2 == 1)
                     text = "0" + text;
                 
@@ -39,13 +45,8 @@
 
                 for(int i = 0; i < chars.Length; i+=2)
                 {
-                    int asciiValue1 = chars[i];
-                    int asciiValue2 = chars[i+1];
-
-                    string s = chars[i] + "" + chars[i+1];
+                    string s = new([chars[i], chars[i+1]]);
                     if(!int.TryParse(s, out int v))
-                        return string.Empty;
-                    if(v < 0 || v > 99)
                         return string.Empty;
 
                     Code128CharcterValue cv = Code128Map.ValueMap[v];
@@ -60,7 +61,8 @@
 
                 return barcodePattern;
             }
-            return string.Empty;
+
+            throw new Exception("invalid symbology. only 128A, 128B, and 128C are supported");
         }
     }
 }
